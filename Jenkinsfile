@@ -15,11 +15,9 @@ pipeline {
         }
         stage('Push Image') {
             steps {
-                script {
-			        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-			        	app.push("${BUILD_NUMBER}")
-			            app.push("latest")
-			        }
+		withCredentials[(usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]
+				 sh "docker login --username=${user} --password=${pass}"
+				 sh "docker push muruganparamasivan/demo-selenium-docker:latest"
                 }
             }
         }
