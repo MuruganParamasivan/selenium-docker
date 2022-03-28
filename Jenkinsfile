@@ -8,9 +8,7 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-                script {
-                	app = docker.build("muruganparamasivan/demo-selenium-docker")
-                }
+                sh "docker build -t='muruganparamasivan/demo-selenium-docker' ."       	
             }
         }
         stage('Push Image') {
