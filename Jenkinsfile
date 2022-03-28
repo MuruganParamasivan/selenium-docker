@@ -18,6 +18,6 @@ pipeline {
 				 sh "docker push muruganparamasivan/demo-selenium-docker:latest"
                 }
             }
-        }
+        
     }
 }
