@@ -8,14 +8,18 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-                sh "docker build -t='muruganparamasivan/demo-selenium-docker' ."
+                script {
+                      app = docker.build("muruganparamasivan/demo-selenium-docker")
+                }
             }
         }
         stage('Push Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]){
-				 sh "docker login --username=${user} --password=${pass}"
-				 sh "docker push muruganparamasivan/demo-selenium-docker:latest"
+                 script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        app.push("${BUILD_NUMBER}")
+                        app.push("latest")
+                    }
                 }
             }
         }        
