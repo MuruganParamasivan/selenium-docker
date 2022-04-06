@@ -9,14 +9,14 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                      app = docker.build("muruganparamasivan/demo-selenium-docker")
+                    app = docker.build("${ImageName}")
                 }
             }
         }
         stage('Push Image') {
             steps {
                  script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                     docker.withRegistry('${DockerRegistryURL}', 'dockerhub') {
                         app.push("${BUILD_NUMBER}")
                         app.push("latest")
                     }
